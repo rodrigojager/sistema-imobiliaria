@@ -1,0 +1,112 @@
+<?php
+ob_start();
+if(isset($_REQUEST['name']) and (isset($_REQUEST['subject'])) and (isset($_REQUEST['email'])) and (isset($_REQUEST['tel'])) and (isset($_REQUEST['message']))) {
+	$name = htmlspecialchars($_REQUEST["name"]);
+	$subject = htmlspecialchars($_REQUEST["subject"]);
+	$email = htmlspecialchars($_REQUEST["email"]);
+	$tel = htmlspecialchars($_REQUEST["tel"]);
+	$message = htmlspecialchars($_REQUEST["message"]);
+}
+else {
+	header('Location:contato.php');
+  exit;
+}
+
+//Definimos Para quem vai ser enviado o email
+$para = "raianeschunkimoveis@gmail.com";
+ //Agora definimos a  mensagem que vai ser enviado no e-mail
+$mensagem = 'Nome: ' . $name . '<br>Telefone: ' . $tel . '<br>Mensagem: ' . $message . '<br>Email: ' . $email;
+//Agora inserimos as codificações corretas e  tudo mais.
+$headers =  "Content-Type:text/html; charset=UTF-8\n";
+$headers .= "From:  ". str_replace(' ', '', strtolower($name)) . "<" . $email . ">\n";
+//Vai ser //mostrado que  o email partiu deste email e seguido do nome
+$headers .= "X-Sender:  <" . $email . ">\n";
+//email do servidor //que enviou
+$headers .= "X-Mailer: PHP  v".phpversion()."\n";
+$headers .= "X-IP:  ".$_SERVER['REMOTE_ADDR']."\n";
+$headers .= "Return-Path:  <raianeschunkimoveis@gmail.com>\n";
+//caso a msg //seja respondida vai para  este email.
+$headers .= "MIME-Version: 1.0\n";
+
+
+mail($para, $subject, $mensagem, $headers);  //função que faz o envio do email.
+?>
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+      <title>Raiane Schunk Imoveis - Contato</title>
+      <meta name="description" content="O imóvel dos seus sonhos e que cabe no seu bolso está aqui. Compre com segurança, facilidade e comodidade.">
+      <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/img/favicon180.png?h=9f130c2b14d978053c6731b7ccf407c8">
+      <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon16.png?h=a58c4bfcf9ecb97edb0371afd58bebd6">
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon32.png?h=3a40431360e2ee134a963d30be2ac8b3">
+      <link rel="icon" type="image/png" sizes="180x180" href="/assets/img/favicon180.png?h=9f130c2b14d978053c6731b7ccf407c8">
+      <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon192.png?h=ae7f95b4e0aa574704d98afe2fcbff92">
+      <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/favicon512.png?h=6c326d01805922a11358413829ed82b0">
+      <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=a58e0d4d1187fe68189dfd02f5384f56">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&amp;display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu&amp;display=swap">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+      <link rel="stylesheet" href="/assets/fonts/fontawesome5-overrides.min.css?h=3166695f5111bb49984dab9ce0b4fc77">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+      <link rel="stylesheet" href="/assets/css/styles.min.css?h=7c2c8ad4cd1a77e990b38733b4fd9a81">
+   </head>
+   <body>
+      <nav class="navbar navbar-light navbar-expand-lg clean-navbar" style="padding: 0px 0px;background: rgb(0,0,0);">
+         <div class="container">
+            <img src="/assets/img/Marca-dagua-fundo-escuro.png?h=255de20775f5dc4b9cde73909eb21073" style="width: 186px;padding-top: 17px;padding-bottom: 16px;"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="color: rgb(128,102,13);background: #845907;"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon" style="color: rgb(0,0,0);"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+               <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link" href="/index.php" style="font-family: Roboto, sans-serif;font-weight: bold;color: rgba(255,255,255,255);">início</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/contato.php" style="font-family: Roboto, sans-serif;font-weight: bold;color: rgba(255,255,255,0.7);">CONTATO</a></li>
+                  <?php
+				  
+				  if (isset( $_COOKIE[ 'logado' ] ) and isset ($_COOKIE[ 'usuario' ])) {
+					  echo '<li class="nav-item"><a class="nav-link" href="/gerenciar.php" style="font-family: Roboto, sans-serif;font-weight: bold;color: rgba(255,255,255,255);">Gerenciar</a></li>';
+					  echo '<li class="nav-item"><a class="nav-link" href="/logout.php" style="font-family: Roboto, sans-serif;color: rgba(255,255,255,255);">(<u>'.$_COOKIE[ 'usuario' ].'</u>)&ensp;<b>sair</b>';
+				  }
+				  else {
+					  echo '<li class="nav-item"><a class="nav-link" href="/login.php" style="font-family: Roboto, sans-serif;color: rgba(255,255,255,255);">Login';
+				  }
+				  ?>
+				  </a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <main class="page contact-us-page">
+         <section class="clean-block clean-form dark">
+            <div class="container">
+               <div class="block-heading">
+                  <h2 style="font-family: Ubuntu, sans-serif;color: #a26c1e;font-weight: bold;">EMAIL ENVIADO COM SUCESSO</h2>
+                  <p style="color: rgb(0,0,0);font-family: Roboto, sans-serif;">Obrigado pela mensagem! Em breve entrarei em contato e responderei sua mensagem</p>
+               </div>
+            </div>
+         </section>
+      </main>
+      <!-- Start: Footer Dark -->
+      <footer class="page-footer dark">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-3">
+                  <h5 class="text-uppercase" style="font-family: Ubuntu, sans-serif;">INÍCIO</h5>
+                  <ul style="filter: hue-rotate(177deg);">
+                     <li style="font-family: Roboto, sans-serif;"><a href="/index.php">Imóveis</a></li>
+                     <li><a href="/contato.php" style="font-family: Roboto, sans-serif;">Contato</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="footer-copyright">
+            <p style="font-family: Roboto, sans-serif;">© 2022</p>
+         </div>
+      </footer>
+      <!-- End: Footer Dark --><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script><script src="/assets/js/script.min.js?h=1665ca77920bb6c16d0d2edee4a77966"></script>
+   </body>
+</html>
+<?php ob_end_flush();?>
