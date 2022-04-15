@@ -13,3 +13,5 @@ Caso queira testar o login, use as seguintes credenciais:
 - Senha: teste
 
 A senha está criptografada no banco de dados e a hash contem salt
+
+No servidor local (APACHE), o controle de login de usuário era mantido pela sessão (PHP session), mas no servidor remoto (hospedagem paga), o controle de sessão não estava funcionando por algum motivo desconhecido. Sendo assim, o controle de login foi feito com o uso de cookies. A solução não é a ideal, porque permite que alguém mal intencionado efetue um ataque no qual os cookies de um usuário que esteja logado no sistema seja roubado e o atacate consiga se passar pelo usuário legítimo, uma vez que o cookie é a própria credencial autenticada. Como o sistema a princípio só seria logado através do computador pessoal da corretora, que apenas ela teria acesso, esse tipo de ataque é muito improvável (exceto se o equipamento estiver comprometido com alguma praga virtual).
